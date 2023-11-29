@@ -1,5 +1,6 @@
 import { Fragment, useEffect, useState } from "react"
 import { Link, useNavigate, useParams } from 'react-router-dom'
+import { DateTime } from "luxon"
 import { filmService } from "~/services/film"
 import '~/assets/css/style_starter.css'
 import jQuery from "jquery"
@@ -18,34 +19,35 @@ function Detail() {
     const { id } = useParams()
     const [content, setContent] = useState('')
     const [isPosted, setPost] = useState(false)
+    const [isReviewed, setReview] = useState(false)
 
     const user = JSON.parse(localStorage.getItem("user"))
-    const username = user ? user.username: null
-    const email = user ?  user.email: null
+    const username = user ? user.username : null
+    const email = user ? user.email : null
 
     useEffect(() => {
         const fetchApi = async () => {
             try {
                 await filmService.getFilmById(id)
-                .then((res) => {
-                    setFilm(res)
-                    setStyle({
-                        background: `url(${res.imageLink}) no-repeat center`,
-                        display: 'grid',
-                        alignItems: 'center',
-                        backgroundSize: 'cover',
-                        position: 'relative',
-                        minHeight: '360px',
-                        borderRadius: '8px',
-                        zIndex: 1
+                    .then((res) => {
+                        setFilm(res)
+                        setStyle({
+                            background: `url(${res.imageLink}) no-repeat center`,
+                            display: 'grid',
+                            alignItems: 'center',
+                            backgroundSize: 'cover',
+                            position: 'relative',
+                            minHeight: '360px',
+                            borderRadius: '8px',
+                            zIndex: 1
+                        })
                     })
-                })
             } catch (error) {
 
             }
         }
         fetchApi()
-    }, [])
+    }, [isReviewed])
 
     useEffect(() => {
         const fetchApi = async () => {
@@ -57,7 +59,7 @@ function Detail() {
             }
         }
         fetchApi()
-    }, [size, isPosted])
+    }, [size, isPosted, isReviewed])
 
     const handleClickSeeMore = () => {
         setSize(size + 5)
@@ -65,7 +67,7 @@ function Detail() {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        if(!username){
+        if (!username) {
             history('/login')
         }
 
@@ -79,6 +81,46 @@ function Detail() {
             }
         }
         fetchApi()
+    }
+
+    const handleReview = (score) => {
+        const fetchApi = async () => {
+            try {
+                await filmService.reviewFilm(id, score)
+                    .then((res) => {
+                        console.log(res)
+                        setReview(!isReviewed)
+                    })
+            } catch (error) {
+                console.error(error)
+            }
+        }
+        fetchApi()
+    }
+
+    const showRating = (score) => {
+        if (score === 0) {
+            score = 10
+        }
+        var rating = []
+        for (var i = 1; i <= 10; i++) {
+            rating.push(i)
+        }
+        return (
+            <span>
+                {
+                    rating.map((rate, index) => {
+                        return (
+                                <i key={index}
+                                    className="fa-solid fa-star"
+                                    style={{ color: (index + 1 <= Math.floor(score)) ? 'yellow' : 'grey' }}
+                                    onClick={(e) => handleReview(index + 1)}>
+                                </i>
+                        )
+                    })
+                }
+            </span>
+        )
     }
 
     var $j = jQuery.noConflict();
@@ -136,18 +178,21 @@ function Detail() {
                                     <ul className="admin-post mt-1">
                                         <li>
                                             <p>Release date :
-                                                <Link to="#"> {film.yearRelease} </Link>
+                                                <Link to="#"> {DateTime.fromISO(film.yearRelease).toFormat("dd-MM-yyyy")} </Link>
                                             </p>
                                         </li>
                                         <li>
                                             <p>Time :
-                                                <Link to="#"> {film.filmLength} </Link>
+                                                <Link to="#"> {film.filmLength} minutes</Link>
                                             </p>
                                         </li>
                                         <li>
                                             <p>Genre :
                                                 <Link to="#"> {film.genre} </Link>
                                             </p>
+                                        </li>
+                                        <li>
+                                            {showRating(film.reviews === 0 ? 10 : film.rating / film.reviews)}
                                         </li>
                                     </ul>
                                     <div className="share-more d-flex mt-4">
@@ -207,7 +252,7 @@ function Detail() {
                                 <div className="form-commets mt-5">
                                     <form onSubmit={handleSubmit}>
                                         <textarea name="Message" required=""
-                                            placeholder="Write your comments here" onChange={(e) => {setContent(e.target.value)}}></textarea>
+                                            placeholder="Write your comments here" onChange={(e) => { setContent(e.target.value) }}></textarea>
                                         <div className="text-right mt-3">
                                             <button className="btn read-button" type="submit" style={{ backgroundColor: '#df0e62', color: '#fff' }}>Post comment</button>
                                         </div>

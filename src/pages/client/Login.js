@@ -50,7 +50,7 @@ function Login() {
         fetchApi()
         setTimeout(() => {
             setClick(false);
-        }, 1000);
+        }, 2000);
     }
 
     return (

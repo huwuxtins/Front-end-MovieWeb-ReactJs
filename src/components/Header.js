@@ -64,6 +64,7 @@ function Header() {
                                                     <li><Link className="dropdown-item" to={"/genre?name=anime"}>Anime</Link></li>
                                                     <li><Link className="dropdown-item" to={"/genre?name=romantic"}>Romantic</Link></li>
                                                     <li><Link className="dropdown-item" to={"/genre?name=tv-series"}>Tv-Series</Link></li>
+                                                    <li><Link className="dropdown-item" to={"/genre?name=comedy"}>Comedy</Link></li>
                                                 </ul>
                                             </li>
                                         </ul>
@@ -86,7 +87,7 @@ function Header() {
                                                                 <Fragment>
                                                                     {isAdmin ? (
                                                                         <li><Link className="dropdown-item" to={"/admin"}>Admin</Link></li>
-                                                                    ): (<Fragment></Fragment>)}
+                                                                    ) : (<Fragment></Fragment>)}
                                                                     <li><button className="dropdown-item" onClick={(e) => { handleLogout(e) }}>Logout</button></li>
                                                                 </Fragment>
                                                             )

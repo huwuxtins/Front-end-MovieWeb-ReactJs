@@ -97,6 +97,7 @@ function EditMovie() {
                                         <option value="tv-series">Tv-series</option>
                                         <option value="romantic">Romantic</option>
                                         <option value="drama">Drama</option>
+                                        <option value="comedy">Comedy</option>
                                     </select>
                                 </div>
                             </div>

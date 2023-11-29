@@ -33,11 +33,11 @@ function Home() {
     useEffect(() => {
         const fetchApi = async () => {
             try {
-                const result = await filmService.getFilms(5)
+                const result = await filmService.getFilms(5, 1, 'asc', 'YearRelease')
                 setRelease(result)
                 setLoad(true)
             } catch (error) {
-
+                console.error(error)
             }
         }
         fetchApi()

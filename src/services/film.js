@@ -2,7 +2,7 @@ import { header } from '~/helper/header'
 import * as httpRequest from '~/utils/httpRequest'
 
 export const filmService = {
-    getFilms: async (size, page, sort, sortProperty, name, search) => {
+    getFilms: async (size, page, sort, sortedProperty, name, search) => {
         try {
             var path = '/film'
             if (size) {
@@ -11,14 +11,20 @@ export const filmService = {
             if (page) {
                 path += `&page=${page}`
             }
+            if(sort){
+                path += `&sort=${sort}`
+            }
+            if(sortedProperty){
+                path += `&sortedProperty=${sortedProperty}`
+            }
             if (name) {
                 path += `&name=${name}`
             }
-            if(search){
+            if (search) {
                 path += `&search=${search}`
             }
             const res = await httpRequest.get(path, {
-                size, page, sort, sortProperty, name, search
+                size, page, sort, sortedProperty, name, search
             })
             return res
         } catch (error) {
@@ -37,7 +43,7 @@ export const filmService = {
             if (name) {
                 path += `&name=${name}`
             }
-            if(search){
+            if (search) {
                 path += `&search=${search}`
             }
             const res = await httpRequest.get(path, {
@@ -83,6 +89,18 @@ export const filmService = {
             return res
         } catch (error) {
             return error.response
+        }
+    },
+    reviewFilm: async (id, score) => {
+        try {
+            await httpRequest.put(`/film`, {
+                id,
+                score
+            }, {
+                headers: header()
+            })
+        } catch (error) {
+
         }
     },
     deleteFilm: async (id) => {

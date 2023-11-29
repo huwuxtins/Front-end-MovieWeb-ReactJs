@@ -68,7 +68,7 @@ function AddMovie() {
                                 <option value="">--Select genre ---</option>
                                 <option value="action">Action</option>
                                 <option value="thriller">Thriller</option>
-                                <option value="anime">Commedy</option>
+                                <option value="anime">Comedy</option>
                                 <option value="horror">Horror</option>
                                 <option value="thriller">Tv-Series</option>
                                 <option value="romantic">Romantic</option>

@@ -8,7 +8,7 @@ function Film() {
     useEffect(() => {
         const fetchApi = async () => {
             try {
-                await filmService.getFilms(4)
+                await filmService.getFilms(4, 1, 'asc', 'Reviews')
                     .then(res => {
                         setFilms(res)
                     })
