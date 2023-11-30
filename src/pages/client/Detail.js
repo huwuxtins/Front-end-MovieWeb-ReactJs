@@ -111,11 +111,11 @@ function Detail() {
                 {
                     rating.map((rate, index) => {
                         return (
-                                <i key={index}
-                                    className="fa-solid fa-star"
-                                    style={{ color: (index + 1 <= Math.floor(score)) ? 'yellow' : 'grey' }}
-                                    onClick={(e) => handleReview(index + 1)}>
-                                </i>
+                            <i key={index}
+                                className="fa-solid fa-star"
+                                style={{ color: (index + 1 <= Math.floor(score)) ? 'yellow' : 'grey' }}
+                                onClick={(e) => handleReview(index + 1)}>
+                            </i>
                         )
                     })
                 }
@@ -218,8 +218,7 @@ function Detail() {
                                             </span>
                                         </a>
                                         <div id="small-dialog" className="zoom-anim-dialog mfp-hide">
-                                            <iframe src={film.linkDemo} frameBorder="0"
-                                                allow="autoplay; fullscreen" allowFullScreen></iframe>
+                                            <iframe width="560" height="315" src={film.linkUrl} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
                                         </div>
                                     </div>
                                 </div>

@@ -192,8 +192,7 @@ function Banner({ films }) {
                                                     <h6>Watch Trailer</h6>
                                                 </a>
                                                 <div id={`small-dialog${index}`} className="zoom-anim-dialog mfp-hide">
-                                                    <iframe src={film.linkDemo} allow="autoplay; fullscreen"
-                                                        allowFullScreen></iframe>
+                                                    <iframe width="560" height="315" src={film.linkDemo} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
                                                 </div>
                                             </div>
                                         </div>
